@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transcript Viewer</title>
+</head>
+<body>
+    <h1>Transcript Viewer</h1>
+    <div id="transcriptContainer">
+        <p>Loading transcript...</p>
+    </div>
+
+    <script>
+        // Extract the URL parameter from the query string
+        const params = new URLSearchParams(window.location.search);
+        const transcriptUrl = params.get('url');
+
+        if (transcriptUrl) {
+            // Create an iframe to display the transcript
+            const iframe = document.createElement('iframe');
+            iframe.src = transcriptUrl;
+            iframe.style.width = '100%';
+            iframe.style.height = '600px';
+            document.getElementById('transcriptContainer').innerHTML = ''; // Clear loading text
+            document.getElementById('transcriptContainer').appendChild(iframe);
+        } else {
+            document.getElementById('transcriptContainer').innerHTML = '<p>No transcript URL provided.</p>';
+        }
+    </script>
+</body>
+</html>
