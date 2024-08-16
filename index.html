@@ -1,32 +1,55 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Transcript Viewer</title>
-</head>
-<body>
-    <h1>Transcript Viewer</h1>
-    <div id="transcriptContainer">
-        <p>Loading transcript...</p>
-    </div>
-
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/png" href="https://cdn.discordapp.com/icons/your_icon_id_here.png?size=16">
+    <title>Your Case ID Here</title>
     <script>
-        // Extract the URL parameter from the query string
-        const params = new URLSearchParams(window.location.search);
-        const transcriptUrl = params.get('url');
-
-        if (transcriptUrl) {
-            // Create an iframe to display the transcript
-            const iframe = document.createElement('iframe');
-            iframe.src = transcriptUrl;
-            iframe.style.width = '100%';
-            iframe.style.height = '600px';
-            document.getElementById('transcriptContainer').innerHTML = ''; // Clear loading text
-            document.getElementById('transcriptContainer').appendChild(iframe);
-        } else {
-            document.getElementById('transcriptContainer').innerHTML = '<p>No transcript URL provided.</p>';
-        }
+        document.addEventListener("click", t=>{
+            let e = t.target;
+            if (!e)
+                return;
+            let o = e?.getAttribute("data-goto");
+            if (o) {
+                let r = document.getElementById(`m-${o}`);
+                r ? (r.scrollIntoView({
+                    behavior: "smooth",
+                    block: "center"
+                }),
+                r.style.backgroundColor = "rgba(148, 156, 247, 0.1)",
+                r.style.transition = "background-color 0.5s ease",
+                setTimeout(()=>{
+                    r.style.backgroundColor = "transparent"
+                }, 1000)) : console.warn("Message ${o} not found.")
+            }
+        });
     </script>
+    <script>
+        window.$discordMessage = {
+            profiles: {
+                "your_profile_id_here": {
+                    "avatar": "https://cdn.discordapp.com/avatars/your_avatar_id_here/your_avatar_image.webp?size=64",
+                    "roleColor": "#2ecc71",
+                    "roleName": "Your Role Name",
+                    "bot": true,
+                    "verified": false
+                }
+            }
+        };
+    </script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@derockdev/discord-components-core@^3.6.1/dist/derockdev-discord-components-core/derockdev-discord-components-core.esm.js"></script>
+</head>
+<body style="margin:0;min-height:100vh">
+    <discord-messages style="min-height:100vh">
+        <discord-header guild="Your Guild Name" channel="your-channel-id" icon="https://cdn.discordapp.com/icons/your_icon_id_here.webp?size=128">
+            Reporter: YourReporterName Case ID: YourCaseID - Created using Report Bot
+        </discord-header>
+        <discord-message id="m-unique_message_id" timestamp="2024-08-15T21:48:19.253Z" profile="your_profile_id_here">
+            <!-- Embed and message content here -->
+        </discord-message>
+        <!-- Add more discord-message elements as needed -->
+        <div style="text-align:center;width:100%">Exported X messages. </div>
+    </discord-messages>
 </body>
 </html>
